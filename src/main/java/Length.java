@@ -1,36 +1,36 @@
 public class Length {
-    private double length;
+    private double value;
     private int unit;
 
-    Length(double len, int ut) {
-        length = len;
-        unit = ut;
+    Length(double value, int unit) {
+        this.value = value;
+        this.unit = unit;
     }
 
-    double getLen() {
-        return length;
+    double getValue() {
+        return value;
     }
 
-    public void add(Length len) {
-        double len1 = transformUnitToMM();
-        double len2 = len.transformUnitToMM();
-        len1 += len2;
+    public void add(Length length) {
+        double value1 = transformUnitToMM();
+        double value2 = length.transformUnitToMM();
+        value1 += value2;
 
-        length = transformUnitToSpecify(len1, unit);
+        this.value = transformUnit(value1, unit);
     }
 
-    public void minus(Length len) {
-        double len1 = transformUnitToMM();
-        double len2 = len.transformUnitToMM();
-        len1 -= len2;
+    public void subtract(Length length) {
+        double value1 = transformUnitToMM();
+        double value2 = length.transformUnitToMM();
+        value1 -= value2;
 
-        length = transformUnitToSpecify(len1, unit);
+        value = transformUnit(value1, unit);
     }
 
-    public Boolean equal(Length len2) {
-        double len = transformUnitToMM();
-        double len1 = len2.transformUnitToMM();
-        if (len == len1) {
+    public Boolean equal(Length length) {
+        double value1 = transformUnitToMM();
+        double value2 = length.transformUnitToMM();
+        if (value1 == value2) {
             return true;
         } else {
             return false;
@@ -44,25 +44,23 @@ public class Length {
     double transformUnitToMM() {
         int multiplier = 10;
         if (unit == 2) {
-            return length*multiplier;
+            return value *multiplier;
         } else if (unit == 3) {
-            return length*multiplier*multiplier;
+            return value *multiplier*multiplier;
         }
-
-
-        return length;
+        return value;
     }
 
-    private double transformUnitToSpecify(double len, int u)
+    private double transformUnit(double value, int unit)
     {
         int multiplier = 10;
-        if (u == 2) {
-            return len / multiplier;
+        if (unit == 2) {
+            return value / multiplier;
 
-        } else if (u == 3) {
-            return len / multiplier /multiplier;
+        } else if (unit == 3) {
+            return value / multiplier /multiplier;
         }
 
-        return len;
+        return value;
     }
 }
