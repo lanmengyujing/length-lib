@@ -1,66 +1,63 @@
 public class Length {
     private double value;
-    private int unit;
+    private Unit unit;
 
-    Length(double value, int unit) {
+
+    public Length(double value, Unit unit) {
         this.value = value;
         this.unit = unit;
     }
 
-    double getValue() {
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public double getValue() {
         return value;
     }
 
-    public void add(Length length) {
+    public Length add(Length length) {
         double value1 = transformUnitToMM();
         double value2 = length.transformUnitToMM();
         value1 += value2;
 
-        this.value = transformUnit(value1, unit);
+        return new Length(transformToInputUnit(value1, unit), unit);
     }
 
-    public void subtract(Length length) {
+    public Length subtract(Length length) {
         double value1 = transformUnitToMM();
         double value2 = length.transformUnitToMM();
         value1 -= value2;
 
-        value = transformUnit(value1, unit);
+        return new Length(transformToInputUnit(value1, unit), unit);
     }
 
-    public Boolean equal(Length length) {
+    public Boolean equals(Length length) {
         double value1 = transformUnitToMM();
         double value2 = length.transformUnitToMM();
-        if (value1 == value2) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    public int getUnit() {
-        return unit;
+        return value1 == value2;
     }
 
     double transformUnitToMM() {
-        int multiplier = 10;
-        if (unit == 2) {
-            return value *multiplier;
-        } else if (unit == 3) {
-            return value *multiplier*multiplier;
-        }
-        return value;
+        return value * unit.getRatio();
     }
 
-    private double transformUnit(double value, int unit)
-    {
-        int multiplier = 10;
-        if (unit == 2) {
-            return value / multiplier;
+    private double transformToInputUnit(double value, Unit unit) {
+        return value / unit.getRatio();
+    }
 
-        } else if (unit == 3) {
-            return value / multiplier /multiplier;
+    public enum Unit {
+        M(1000), CM(10), MM(1);
+
+        private int ratio;
+
+        public int getRatio() {
+            return this.ratio;
         }
 
-        return value;
+        Unit(int ratio) {
+            this.ratio = ratio;
+        }
     }
 }
